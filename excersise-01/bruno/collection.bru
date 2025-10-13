@@ -1,0 +1,9 @@
+vars:pre-request {
+  ipstack_access_key: c0fcda30d408a2fbd9ef604474059620
+}
+
+vars:post-response {
+  ip_address: res.body.ip
+  geo_ip_lat: res.body.coordinates.lat
+  geo_ip_lon: res.body.coordinates.lon
+}

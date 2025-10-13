@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "excersise-01",
+    "description": "",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get IP",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://api.ipstack.com/check?access_key={{ipstack_access_key}}",
+          "protocol": "http",
+          "host": [
+            "api",
+            "ipstack",
+            "com"
+          ],
+          "path": [
+            "check"
+          ],
+          "query": [
+            {
+              "key": "access_key",
+              "value": "{{ipstack_access_key}}"
+            }
+          ],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get Weather",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "https://api.open-meteo.com/v1/forecast?latitude={{geo_ip_lat}}&longitude={{geo_ip_lon}}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m",
+          "protocol": "https",
+          "host": [
+            "api",
+            "open-meteo",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "{{geo_ip_lat}}"
+            },
+            {
+              "key": "longitude",
+              "value": "{{geo_ip_lon}}"
+            },
+            {
+              "key": "current",
+              "value": "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
+            }
+          ],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Get Geo",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "https://aether.epias.ltd/ip2country/{{ip_address}}?full=true",
+          "protocol": "https",
+          "host": [
+            "aether",
+            "epias",
+            "ltd"
+          ],
+          "path": [
+            "ip2country",
+            "{{ip_address}}"
+          ],
+          "query": [
+            {
+              "key": "full",
+              "value": "true"
+            }
+          ],
+          "variable": []
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "ipstack_access_key",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "geo_ip_lat",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "geo_ip_lon",
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "ip_address",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

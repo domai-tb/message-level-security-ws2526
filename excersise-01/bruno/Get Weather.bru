@@ -1,0 +1,21 @@
+meta {
+  name: Get Weather
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://api.open-meteo.com/v1/forecast?latitude={{geo_ip_lat}}&longitude={{geo_ip_lon}}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m
+  body: none
+  auth: inherit
+}
+
+params:query {
+  latitude: {{geo_ip_lat}}
+  longitude: {{geo_ip_lon}}
+  current: temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m
+}
+
+settings {
+  encodeUrl: true
+}

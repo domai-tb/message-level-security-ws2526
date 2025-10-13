@@ -1,0 +1,19 @@
+meta {
+  name: Get IP
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://api.ipstack.com/check?access_key={{ipstack_access_key}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  access_key: {{ipstack_access_key}}
+}
+
+settings {
+  encodeUrl: false
+}

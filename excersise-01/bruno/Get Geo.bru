@@ -1,0 +1,19 @@
+meta {
+  name: Get Geo
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://aether.epias.ltd/ip2country/{{ip_address}}?full=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  full: true
+}
+
+settings {
+  encodeUrl: false
+}
