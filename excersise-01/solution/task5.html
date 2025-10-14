@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <h1>Task 5 JSON: Parsing with JavaScript</h1>
+        <a>Check Developer Console</a>
+    </body>
+    <script>
+        let googleOIDCConfUrl = "https://accounts.google.com/.well-known/openid-configuration";
+
+        fetch(googleOIDCConfUrl).then(resp => resp.json()).then(json => {
+            console.log("Authorization Endpoint: " + json["authorization_endpoint"]);
+            console.log("Supported Scopes: " + json["scopes_supported"]);
+            console.log("Supported Claims: " + json["claims_supported"]);
+        })
+    </script>
+</html>
