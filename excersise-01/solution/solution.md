@@ -6,7 +6,7 @@ Check out [this Postman collection](./task1.json).
 
 ## Task 2
 
-a) Yes, it has key-value-pairs, all keys are strings
+a) No, because `True` must be `true`
 
 b) Yes, it is an array
 
@@ -53,7 +53,7 @@ a) `A256GCMKW`: Key wrapping with AES GCM using 256-bit key
 
 b) `ES384`
 
-c) `akg`, `jku`, `jwk`, `kid`, `x5u`, `x5c`, `x5t`
+c) `jku`, `jwk`, `kid`, `x5u`, `x5c`, `x5t`, `x5t#S256`
 
 d) The `crit` header tries to ensure that required parameters are used and understood on the server site.
 
@@ -65,3 +65,4 @@ a)
 
 - Set `alg` to `none` and remove signature: `FLAG{json_signature_verifier_2_RWHiX1ifds0GqpKl}`
 - Set `alg` to `NoNe` (and let signature attached): `FLAG{json_signature_verifier_3_4dwCLnHa81FguV49}`
+- 
