@@ -1,134 +1,182 @@
 {
-  "info": {
-    "name": "excersise-01",
-    "description": "",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
+  "name": "excersise-01",
+  "version": "1",
+  "items": [
     {
-      "name": "Get IP",
-      "event": [],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "noauth"
-        },
-        "description": "",
-        "url": {
-          "raw": "http://api.ipstack.com/check?access_key={{ipstack_access_key}}",
-          "protocol": "http",
-          "host": [
-            "api",
-            "ipstack",
-            "com"
-          ],
-          "path": [
-            "check"
-          ],
-          "query": [
-            {
-              "key": "access_key",
-              "value": "{{ipstack_access_key}}"
-            }
-          ],
-          "variable": []
-        }
-      }
-    },
-    {
-      "name": "Get Weather",
-      "event": [],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "noauth"
-        },
-        "description": "",
-        "url": {
-          "raw": "https://api.open-meteo.com/v1/forecast?latitude={{geo_ip_lat}}&longitude={{geo_ip_lon}}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m",
-          "protocol": "https",
-          "host": [
-            "api",
-            "open-meteo",
-            "com"
-          ],
-          "path": [
-            "v1",
-            "forecast"
-          ],
-          "query": [
-            {
-              "key": "latitude",
-              "value": "{{geo_ip_lat}}"
-            },
-            {
-              "key": "longitude",
-              "value": "{{geo_ip_lon}}"
-            },
-            {
-              "key": "current",
-              "value": "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
-            }
-          ],
-          "variable": []
-        }
-      }
-    },
-    {
+      "type": "http",
       "name": "Get Geo",
-      "event": [],
+      "filename": "Get Geo.bru",
+      "seq": 3,
+      "settings": {
+        "encodeUrl": false,
+        "timeout": 0
+      },
+      "tags": [],
       "request": {
+        "url": "https://aether.epias.ltd/ip2country/{{ip_address}}?full=true",
         "method": "GET",
-        "header": [],
-        "auth": {
-          "type": "noauth"
+        "headers": [],
+        "params": [
+          {
+            "name": "full",
+            "value": "true",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
         },
-        "description": "",
-        "url": {
-          "raw": "https://aether.epias.ltd/ip2country/{{ip_address}}?full=true",
-          "protocol": "https",
-          "host": [
-            "aether",
-            "epias",
-            "ltd"
-          ],
-          "path": [
-            "ip2country",
-            "{{ip_address}}"
-          ],
-          "query": [
-            {
-              "key": "full",
-              "value": "true"
-            }
-          ],
-          "variable": []
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Get IP",
+      "filename": "Get IP.bru",
+      "seq": 2,
+      "settings": {
+        "encodeUrl": false,
+        "timeout": 0
+      },
+      "tags": [],
+      "request": {
+        "url": "http://api.ipstack.com/check?access_key={{ipstack_access_key}}",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "access_key",
+            "value": "{{ipstack_access_key}}",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Get Weather",
+      "filename": "Get Weather.bru",
+      "seq": 4,
+      "settings": {
+        "encodeUrl": true,
+        "timeout": 0
+      },
+      "tags": [],
+      "request": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude={{geo_ip_lat}}&longitude={{geo_ip_lon}}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m",
+        "method": "GET",
+        "headers": [],
+        "params": [
+          {
+            "name": "latitude",
+            "value": "{{geo_ip_lat}}",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "longitude",
+            "value": "{{geo_ip_lon}}",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "current",
+            "value": "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,snowfall,showers,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
         }
       }
     }
   ],
-  "variable": [
-    {
-      "key": "ipstack_access_key",
-      "value": "",
-      "type": "default"
-    },
-    {
-      "key": "geo_ip_lat",
-      "value": "",
-      "type": "default"
-    },
-    {
-      "key": "geo_ip_lon",
-      "value": "",
-      "type": "default"
-    },
-    {
-      "key": "ip_address",
-      "value": "",
-      "type": "default"
+  "environments": [],
+  "root": {
+    "request": {
+      "vars": {
+        "req": [
+          {
+            "name": "ipstack_access_key",
+            "value": "c0fcda30d408a2fbd9ef604474059620",
+            "enabled": true,
+            "local": false,
+            "uid": "lGkvcwZr7amSg774nqbeb"
+          }
+        ],
+        "res": [
+          {
+            "name": "ip_address",
+            "value": "res.body.ip",
+            "enabled": true,
+            "local": false,
+            "uid": "PrIYoOE6hOpjXaaFFCT7H"
+          },
+          {
+            "name": "geo_ip_lat",
+            "value": "res.body.coordinates.lat",
+            "enabled": true,
+            "local": false,
+            "uid": "CKASm2mPFejj8YdvDJAho"
+          },
+          {
+            "name": "geo_ip_lon",
+            "value": "res.body.coordinates.lon",
+            "enabled": true,
+            "local": false,
+            "uid": "0HjL5bvBX4pkPNqu3xcoq"
+          }
+        ]
+      }
     }
-  ]
+  },
+  "brunoConfig": {
+    "version": "1",
+    "name": "excersise-01",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0.0013151168823242188,
+    "filesCount": 4
+  }
 }
