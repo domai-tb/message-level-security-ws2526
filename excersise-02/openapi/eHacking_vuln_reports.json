@@ -1,0 +1,602 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Vulnerable Reports",
+    "description": "Vulnerable API for managing reports.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://rest.e-hacking.de:443/rest-api-sec/vuln_reports"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Warm-up",
+      "description": "Endpoints Relevant for Warm-up Level."
+    },
+    {
+      "name": "BOLA",
+      "description": "Endpoints Relevant for Broken Object Level Authorization"
+    },
+    {
+      "name": "BOPLA",
+      "description": "Endpoints Relevant for Broken Property Level Authorization"
+    },
+    {
+      "name": "SSRF",
+      "description": "Endpoints Relevant for Server-Side Request Forgery"
+    },
+    {
+      "name": "Unsafe API",
+      "description": "Endpoints Relevant for Unsafe API Vulnerabilities"
+    },
+    {
+      "name": "Security Misconfiguration (SM)",
+      "description": "The API is vulnerable bacause the best current practices regaring error messages, measureble behavior in dependence of the input, or insufficient input sanitization are not implemented correctly."
+    }
+  ],
+  "paths": {
+    "/reset": {
+      "get": {
+        "operationId": "tokensRevokePost",
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/authenticate": {
+      "post": {
+        "tags": ["Warm-up", "BOLA", "BOPLA", "SSRF", "Unsafe API"],
+        "summary": "Authenticate and fetch a valid Access Token",
+        "operationId": "authenticatePost",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["password", "username"],
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Type your username",
+                    "default": "bgreen"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Type your password",
+                    "default": "password5"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "tags": [
+          "Warm-up",
+          "BOLA",
+          "BOPLA",
+          "SSRF",
+          "Security Misconfiguration (SM)"
+        ],
+        "summary": "Get reports created by the user based on *access_token*",
+        "operationId": "reportsGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["BOPLA", "SSRF", "Security Misconfiguration (SM)"],
+        "summary": "Create a new report",
+        "operationId": "createReport",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["content", "name", "reportId"],
+                "type": "object",
+                "properties": {
+                  "reportId": {
+                    "type": "string",
+                    "description": "Specify Report ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Report Name"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Report's Content: No format specified."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["Warm-up", "BOPLA", "SSRF", "Security Misconfiguration (SM)"],
+        "summary": "Update existing report",
+        "operationId": "patchReport_1",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["reportId"],
+                "type": "object",
+                "properties": {
+                  "reportId": {
+                    "type": "string",
+                    "description": "Specify Report ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Report Name"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Report's Content: No format specified"
+                  },
+                  "department": {
+                    "type": "string",
+                    "description": "Specify the department related to this report"
+                  },
+                  "creator_id": {
+                    "type": "string",
+                    "description": "Specify the creator of the report"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reports/download": {
+      "post": {
+        "tags": ["SSRF", "Security Misconfiguration (SM)"],
+        "summary": "Download report as JSON, XML, or PDF",
+        "operationId": "downloadReport",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filepath": {
+                    "type": "string",
+                    "description": "Type the filepath of the PDF. It returns the Base64-encoded content."
+                  },
+                  "filetype": {
+                    "type": "string",
+                    "description": "Specify report's format: json, xml, pdf",
+                    "default": "json"
+                  },
+                  "showOnlyContent": {
+                    "type": "boolean",
+                    "description": "Parses report's content in the correspondig file format without the headers: `name, creator_id, id, department`. ",
+                    "default": true
+                  },
+                  "reportId": {
+                    "type": "string",
+                    "description": "Specify Report ID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportsAPI-ReportInfo"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportsAPI-ReportInfo"
+                }
+              },
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reports/upload": {
+      "post": {
+        "tags": ["SSRF", "Security Misconfiguration (SM)"],
+        "summary": "Upload a report as a PDF",
+        "operationId": "patchReport",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["pdf_encoded"],
+                "type": "object",
+                "properties": {
+                  "pdf_encoded": {
+                    "type": "string",
+                    "description": "PDF document encoded base64"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reports/{reportId}": {
+      "get": {
+        "tags": ["BOLA", "BOPLA", "SSRF", "Security Misconfiguration (SM)"],
+        "summary": "Get reports' content by *report_id*",
+        "operationId": "viewReportbyId",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "reportId",
+            "in": "path",
+            "description": "Specify Report ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": ["Warm-up", "BOLA", "BOPLA", "SSRF", "Unsafe API"],
+        "summary": "Get the user information based on *access_token*",
+        "operationId": "usersUserinfoGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportsAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ReportsAPI-ReportInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "creatorId": {
+            "type": "string"
+          }
+        },
+        "description": "A ReportInfo object that represents the data stored for a specific report"
+      },
+      "ReportsAPI-UserInfo": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "companyId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "A list of user roles",
+            "enum": [
+              "user",
+              "local_admin",
+              "admin",
+              "super_admin",
+              "seller",
+              "customer",
+              "employee",
+              "manager",
+              "ceo",
+              "normal"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "An userinfo object that represents the data stored for a specific user"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

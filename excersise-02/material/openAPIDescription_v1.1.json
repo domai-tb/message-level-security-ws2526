@@ -1,0 +1,749 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "eHacking Insecure REST-API",
+        "version": "1.1"
+    },
+    "servers": [
+        {
+            "url": "/v1.1"
+        },
+        {
+            "url": "/v1.0"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "companyInfo": {
+                "type": "object",
+                "required": [
+                    "company_id",
+                    "name"
+                ],
+                "properties": {
+                    "company_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "description_url": {
+                        "type": "string"
+                    }
+                }
+            },
+            "userInfo": {
+                "type": "object",
+                "required": [
+                    "user_id",
+                    "username",
+                    "password",
+                    "company_id",
+                    "role"
+                ],
+                "properties": {
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "company_id": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "contact": {
+                        "type": "string"
+                    },
+                    "salary": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            },
+            "jwtAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "oauth2": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "tokenUrl": "/token_endpoint",
+                        "scopes": {
+                            "read": "Grants read access",
+                            "write": "Grants write access",
+                            "localAdmin": "Grants access to admin operations within a company",
+                            "superAdmin": "Grants access to unlimited admin operations"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/authenticate": {
+            "get": {
+                "description": "Fetch a valid Access Token via Basic Authentication",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "description": "Fetch a valid Access Token via Basic Authentication",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "string",
+                                "example": "username=user1&password=secure",
+                                "description": "User credentials submitted via HTTP POST",
+                                "properties": {
+                                    "username": {
+                                        "description": "Username of the user",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Password of the user",
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/users/userinfo": {
+            "get": {
+                "description": "Get the user information based on *access_token*",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "Get the user information based on *user_id*. This function is useful for administrator reading the information of other users.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "example": "/users/14",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/change_password/{id}": {
+            "post": {
+                "description": "Users can change their own password. Administrators are allowed to change the password of users, too.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "required": true,
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "example": "/users/change_password/14",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/update_userinfo": {
+            "put": {
+                "description": "Users can change their own profile. Administrators are allowed to change the profile of other users, too.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "example": "user_id=14&username=attacker&age=66",
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "company_id": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "salary": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "user_id", "username", "password", "company_id", "role"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admins/users": {
+            "get": {
+                "description": "Get the information for all users working for the same company.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admins/update_userinfo/{id}": {
+            "put": {
+                "description": "Users can change their own profile. Administrators are allowed to change the profile of other users, too.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "example": "/admins/update_userinfo/14",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "example": "user_id=14&username=attacker&age=66",
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "company_id": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "salary": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "user_id", "username", "password", "company_id", "role"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/admins/create_user": {
+            "put": {
+                "description": "API creating new users.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userInfo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/companies/{id}": {
+            "get": {
+                "description": "Get the profile of a company.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Add company information to the database.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/companyInfo"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/tokens/list": {
+            "get": {
+                "description": "List all tokens stored for the user.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/tokens/revoke": {
+            "post": {
+                "description": "Revokes the bearer token.",
+                "parameters": [
+                    {
+                        "name": "verifier",
+                        "in": "query",
+                        "description": "Verifier controlling the verification logic of the vulnerable service.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/reset": {
+            "post": {
+                "description": "Resets the database to the init state.",
+                "responses": {
+                    "200": {
+                        "description": "The Request could be processed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Exception occured. Operation not allowed.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,1008 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Vulnurable Shop API",
+    "description": "API for the Vulnerable Shop Application",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://rest.e-hacking.de:443/rest-api-sec/vuln_shop"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Warm-up",
+      "description": "Endpoints Relevant for Warm-up Level."
+    },
+    {
+      "name": "BOPLA",
+      "description": "Endpoints Relevant for Broken Property Level Authorization. Use `verifier=bopla-{num}`."
+    },
+    {
+      "name": "SSRF",
+      "description": "Endpoints Relevant for Server-Side Request Forgery"
+    },
+    {
+      "name": "BFLA",
+      "description": "Endpoints Relevant for Broken Function Level Authorization. Use `verifier=bfla-{num}`."
+    },
+    {
+      "name": "Unsafe API",
+      "description": "Endpoints Relevant for Unsafe API Vulnerabilities"
+    },
+    {
+      "name": "BOLA",
+      "description": "Endpoints Relevant for Broken Object Level Authorization. Use `verifier=bola-{num}`."
+    }
+  ],
+  "paths": {
+    "/reset": {
+      "get": {
+        "operationId": "tokensRevokePost",
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/authenticate": {
+      "post": {
+        "tags": ["Warm-up", "BOPLA", "SSRF", "BFLA", "Unsafe API"],
+        "summary": "Authenticate and Fetch a valid Access Token",
+        "operationId": "authenticatePost",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["password", "username"],
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Type your username",
+                    "default": "user1"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Type your password",
+                    "default": "password1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      }
+    },
+    "/buy/{product_id}": {
+      "post": {
+        "tags": ["BOPLA"],
+        "summary": "Buy a product via the Id",
+        "operationId": "getReportbyId",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Specify Product ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["amount", "price", "shop_id", "user_id"],
+                "type": "object",
+                "properties": {
+                  "shop_id": {
+                    "type": "string",
+                    "description": "Specify Shop ID"
+                  },
+                  "user_id": {
+                    "type": "string",
+                    "description": "Specify User ID"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Specify Amount",
+                    "format": "int32"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Specify Price",
+                    "format": "float"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/products/{product_id}": {
+      "get": {
+        "tags": ["SSRF", "BOPLA", "BFLA", "BOLA"],
+        "summary": "Get the user information based on *access_token*",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Specify Product ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-ProductInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      },
+      "post": {
+        "tags": ["BFLA", "BOLA"],
+        "summary": "Sellers' Area: Update the information based on product_id",
+        "operationId": "createProduct",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Specify Product ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "required": [
+                  "amount",
+                  "description",
+                  "name",
+                  "picture",
+                  "price",
+                  "product_id",
+                  "shop_id",
+                  "sold"
+                ],
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string",
+                    "description": "Specify Product ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Specify Product Name"
+                  },
+                  "shop_id": {
+                    "type": "string",
+                    "description": "Specify Product Shop ID"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Specify Product Description"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Specify Product Price",
+                    "format": "float"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Specify Product Amout",
+                    "format": "int32"
+                  },
+                  "sold": {
+                    "type": "integer",
+                    "description": "Specify Product Sold",
+                    "format": "int32"
+                  },
+                  "picture": {
+                    "type": "string",
+                    "description": "Specify Product Picture URL"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["BFLA", "BOLA"],
+        "summary": "Sellers' Area: Delete specified product",
+        "operationId": "deleteProductById",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Specify Product ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["SSRF", "BFLA", "BOLA"],
+        "summary": "Sellers' Area: Update the information based on product_id",
+        "operationId": "updateProductById",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "Specify Product ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "amount",
+                  "description",
+                  "name",
+                  "picture",
+                  "price",
+                  "product_id",
+                  "shop_id",
+                  "sold"
+                ],
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string",
+                    "description": "Specify Product ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Specify Product Name"
+                  },
+                  "shop_id": {
+                    "type": "string",
+                    "description": "Specify Product Shop ID"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Specify Product Description"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Specify Product Price",
+                    "format": "float"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Specify Product Amout",
+                    "format": "int32"
+                  },
+                  "sold": {
+                    "type": "integer",
+                    "description": "Specify Product Sold",
+                    "format": "int32"
+                  },
+                  "picture": {
+                    "type": "string",
+                    "description": "Specify Product Picture URL"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/shops/{shop_id}/products": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "BFLA"],
+        "summary": "Get products of the shop by its ID",
+        "operationId": "getProductsByShopId",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "loglevel",
+            "in": "query",
+            "deprecated": true,
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "info"
+          },
+          {
+            "name": "shop_id",
+            "in": "path",
+            "description": "Specify Shop ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      }
+    },
+    "/shops/{shop_id}": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "BFLA"],
+        "summary": "Get shops by Id",
+        "operationId": "getShopbyId",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "shop_id",
+            "in": "path",
+            "description": "Specify Shop ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-ShopInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/shops": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "BFLA"],
+        "summary": "Get information for all shops",
+        "operationId": "shopsShopInfoGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      }
+    },
+    "/users/products": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "SSRF", "BFLA"],
+        "summary": "Get all products managed by the user based on *access_token*",
+        "operationId": "getOwnProducts",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/shops": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "SSRF", "BFLA"],
+        "summary": "Get all shops managed by the user based on *access_token*",
+        "operationId": "getOwnShops",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["BOPLA", "SSRF", "BFLA"],
+        "summary": "Get userinfo by the Id",
+        "operationId": "getUserbyId",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Specify User ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Warm-up", "BOPLA", "SSRF", "BFLA"],
+        "summary": "Get the user information based on *access_token*",
+        "operationId": "usersUserinfoGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["BOPLA", "SSRF", "BFLA"],
+        "summary": "Admins' Area: Update existing user information",
+        "operationId": "patchUserInfo",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShopAPI-ProductInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shop_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "picture": {
+            "type": "string"
+          }
+        },
+        "description": "A ProductInfo object that represents the data stored for a specific product"
+      },
+      "ShopAPI-ShopInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner_id": {
+            "type": "string"
+          },
+          "sales": {
+            "type": "number",
+            "format": "float"
+          },
+          "profit": {
+            "type": "number",
+            "format": "float"
+          },
+          "discount_codes": {
+            "type": "string"
+          },
+          "discount_dates": {
+            "type": "string"
+          }
+        },
+        "description": "A shop object that represents the data stored for a specific shop"
+      },
+      "ShopAPI-UserInfo": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "A list of user roles",
+            "enum": [
+              "user",
+              "local_admin",
+              "admin",
+              "super_admin",
+              "seller",
+              "customer",
+              "employee",
+              "manager",
+              "ceo",
+              "normal"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "An userinfo object that represents the data stored for a specific user"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

@@ -1,0 +1,465 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Vulnurable Users API",
+    "description": "Vulnerable API for managing users.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://rest.e-hacking.de:443/rest-api-sec/vuln_users"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Warm-up",
+      "description": "Endpoints Relevant for Warm-up Level. Use `verifier=secure`."
+    },
+    {
+      "name": "BOLA",
+      "description": "Endpoints Relevant for Broken Object Level Authorization Level. Use `verifier=bola-{num}`."
+    },
+    {
+      "name": "BFLA",
+      "description": "Endpoints Relevant for Broken Function Level Authorization. Use `verifier=bfla-{num}`."
+    },
+    {
+      "name": "BOPLA",
+      "description": "Endpoints Relevant for Broken Property Level Authorization. Use `verifier=bopla-{num}`."
+    },
+    {
+      "name": "Security Misconfiguration (SM)",
+      "description": "The API is vulnerable bacause the best current practices regaring error messages, measureble behavior in dependence of the input, or insufficient input sanitization are not implemented correctly. Use `verifier=sm-{num}`."
+    },
+    {
+      "name": "SSRF",
+      "description": "Endpoints Relevant for Server-Side Request Forgery. Use `verifier=ssrf-{num}`."
+    },
+    {
+      "name": "Authentication Bypass",
+      "description": "Endpoints Relevant for Authentication Bypass. Use `verifier=auth-{num}`."
+    }
+  ],
+  "paths": {
+    "/reset": {
+      "get": {
+        "operationId": "tokensRevokePost",
+        "responses": {
+          "default": {
+            "description": "default response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/authenticate": {
+      "get": {
+        "tags": ["Authentication Bypass"],
+        "summary": "Fetch a valid Access Token via Basic Authentication",
+        "operationId": "authenticateGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "pattern": "Basic .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Warm-up",
+          "BOLA",
+          "BFLA",
+          "BOPLA",
+          "Security Misconfiguration (SM)",
+          "SSRF",
+          "Authentication Bypass"
+        ],
+        "summary": "Authenticate and fetch a valid Access Token",
+        "operationId": "authenticatePost",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "pattern": "Basic .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": ["password", "username"],
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Type your username"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Type your password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["BFLA"],
+        "summary": "Get information for all users. This function is useful for administrator reading the information of other users.",
+        "operationId": "userUsersGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            },
+            "example": "secure"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed."
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/user/{id}": {
+      "get": {
+        "tags": ["Warm-up", "BOLA", "Security Misconfiguration (SM)"],
+        "summary": "Get the user information based on *user_id*. This function is useful for administrator reading the information of other users.",
+        "operationId": "usersIdGet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": 1
+          },
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            },
+            "example": "secure"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/user": {
+      "get": {
+        "tags": ["Warm-up", "BOLA", "Authentication Bypass", "SSRF"],
+        "summary": "Get the user information based on *access_token*",
+        "operationId": "usersUserinfoGet",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Submit the access_token generated during the authentication",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        }
+      },
+      "patch": {
+        "tags": ["BOLA", "BOPLA"],
+        "summary": "Users can change their own profile. Administrators are allowed to change the profile of other users, too.",
+        "operationId": "usersUpdateUserinfoPut",
+        "parameters": [
+          {
+            "name": "verifier",
+            "in": "query",
+            "description": "Verifier controlling the verification logic of the vulnerable service.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "secure"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "pattern": "Bearer .+",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "company_id",
+                  "password",
+                  "role",
+                  "user_id",
+                  "username"
+                ],
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "username": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "password": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "company_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "A list of user roles",
+                    "enum": [
+                      "user",
+                      "local_admin",
+                      "admin",
+                      "super_admin",
+                      "seller",
+                      "customer",
+                      "employee",
+                      "manager",
+                      "ceo",
+                      "normal"
+                    ]
+                  },
+                  "age": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "contact": {
+                    "type": "string"
+                  },
+                  "salary": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Request could be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAPI-UserInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Exception occured. Operation not allowed."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UsersAPI-UserInfo": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "companyId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "A list of user roles",
+            "enum": [
+              "user",
+              "local_admin",
+              "admin",
+              "super_admin",
+              "seller",
+              "customer",
+              "employee",
+              "manager",
+              "ceo",
+              "normal"
+            ]
+          },
+          "address": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "description": "An userinfo object that represents the data stored for a specific user"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
