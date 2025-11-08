@@ -9,6 +9,8 @@ b) `api_key: apiKey`
 c) `api_key`
 
 d) Neah, API-keys are still common practice but "dynamic" authentication token like JWTs / SSO-based authentication would be more secure (if correctly configured).
+The tomtom API uses HTTPS, the sending the API key via query itself would be fine. One issue would be, for example, logging via the browser history. 
+This makes the aforementioned authentication methods preferable.
 
 e)
 
@@ -28,7 +30,8 @@ b)
 
 ```
 Supported API version(s):
-- 1.1
+- v1.0
+- v1.1
 ```
 
 c)
@@ -57,112 +60,73 @@ e)
 
 ```
 Paths without any defined authentication mechanism:
+- /authenticate (POST) (no 'security:' attribute)
 - /companies/{id}
 - /reset
 ```
 
 ## Task 3
-
 a)
+The "Vulnerable Users API" Postman collection was used via Bruno.
+i)
 
-The endpoints gives for some reason always `invalid access_token` as response.
-Multiple resets couldn't help. The script to implement this is [task3_users.py](./task3_users.py).
+- Using the credentials for the `natasha_romanoff` user, `/authenticate` returns `"id": "2"` and an `access_token`.
+- Using the `access_token`, `/users/user` returns `"role": "normal"`
+
+ii)
+The "Vulnerable Users API" Postman collection was used via Bruno.
 
 ```
-❯ python task3.py
-[*] Authenticating...
-{'id': '2', 'name': 'natasha_romanoff', 'access_token': 'bafcd0d2-42bd-4e16-88cc-e6416eef3d11'}
-[+] Access Token: bafcd0d2-42bd-4e16-88cc-e6416eef3d11
-[*] Fetching user info...
-{'error': 'Invalid Access Token'}
-Traceback (most recent call last):
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/task3.py", line 53, in <module>
-    main()
-    ~~~~^^
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/task3.py", line 47, in main
-    user_info = get_user_info(token)
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/task3.py", line 37, in get_user_info
-    response.raise_for_status()
-    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/usr/lib/python3.13/site-packages/requests/models.py", line 1026, in raise_for_status
-    raise HTTPError(http_error_msg, response=self)
-requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://rest.e-hacking.de:443/rest-api-sec/vuln_users/users/user?verifier=secure
+- Given a valid `access_token`, /users/user provides both id and role.
+- Given a valid id and `access_token`, /users/user/{id} provides both id and role for the authenticated user.
+- Given valid credentials, /authenticate only provides the id.
 ```
 
 b)
+The "Vulnerable Reports API" Postman collection was used via Bruno.
+i)
+- Using the credentials for the `bgreen` user, `/authenticate` returns `"id": "5"` and an `access_token`.
+- Using the `access_token`, `/user` returns `"role": "employee"`
 
-The endpoints gives for some reason always `invalid access_token` as response.
-Multiple resets couldn't help. The script to implement this is [task3_reports.py](./task3_reports.py).
-
-```
-❯ python task3_reports.py
-[*] Authenticating...
-{'id': '5', 'name': 'bgreen', 'access_token': '52d44381-5022-4e9d-885b-79c2756b8da3'}
-[+] Obtained access token: 52d44381-5022-4e9d-885b-79c2756b8da3
-{'error': 'Invalid Access Token'}
-[!] Failed to fetch user info (/user): 401 Client Error: Unauthorized for url: https://rest.e-hacking.de:443/rest-api-sec/vuln_reports/user?verifier=1
-
-=== Authenticated user info ===
-User ID: (not present in response)
-Role: (not present in response)
-
-[*] Querying your reports (/reports)...
-[!] Failed to fetch reports: 400 Client Error: Bad Request for url: https://rest.e-hacking.de:443/rest-api-sec/vuln_reports/reports?verifier=1
-Your reports (raw objects): []
-Report IDs found: []
-
-Done.
-```
-
+ii)
+- Using the `access_token`, `/reports` (GET) returns reports with `"id": 4` and `"id": 9`
+- 
 iii)
-
 - Yes. The endpoint to update an existing report's properties (including the `name`) is:
   HTTP method: PATCH
   Path: /reports (server base) -> full path: https://rest.e-hacking.de:443/rest-api-sec/vuln_reports/reports
 - You must supply an Authorization header with `Bearer <access_token>` and include form data with at least `reportId`.
 - To change the name include the `name` field in the form body.
 
+c)
+The "Vulnerable Reports API" Postman collection was used via Bruno.
+i)
+- Using the credentials for the `user1` user, `/authenticate` returns `"id": "12345678"` and an `access_token`.
+- Using the `access_token`, `/users` returns `"role": "customer"`
+
+ii)
+- Using the `access_token`, `/users/shops` returns `[]`. The user does not own any shops.
+
+iii)
+- Using the `/shops` Endpoint, one can see that the shop `Adventure Goods` has the id `87654325`
+- Using the `/shops/{shop_id}` Endpoint using the `access_token`, looking up the id `87654325` returns the user id `45678901` as owner
+
+iv)
+- Using the `/shops` Endpoint, one can see that the shop `Bike World` has the id `87654322`
+- Using the `/shops/{shop_id}/products` Endpoint using the `access_token` and looking up the id `87654322`, one can see that the BMX costs 300 (Dollars? Euros?)
+
 ## Task 4
 
-a) See [task4_bola1.py](../task4_bola1.py)
+The "Vulnerable Reports API" Postman collection was used via Bruno.
+i)
+- Using the credentials for the `bgreen` user, `/authenticate` returns an `access_token` and `"id": "5"`.
 
-```
-❯ python task4_bola1.py
-[*] Authenticating...
-{'id': '2', 'name': 'natasha_romanoff', 'access_token': 'aa570f7e-be8e-4c3e-9225-ee627a2e4d69'}
-[+] Access Token: aa570f7e-be8e-4c3e-9225-ee627a2e4d69
-[*] Fetching user info...
-{'id': '4', 'username': 'bruce_wayne', 'company_id': 'meta', 'role': 'admin', 'address': 'Gotham'}
-User ID: 4
-Role: admin
-```
-
-b) See [task4_bola2.py](../task4_bola2.py)
-
-The endpoints gives for some reason always `invalid access_token` as response.
-Multiple resets couldn't help. The script to implement this is [task4_bola2.py](./task4_bola2.py).
-
-```
-❯ python task4_bola2.py
-[*] Authenticating...
-{'id': '2', 'name': 'natasha_romanoff', 'access_token': '2b73d2a8-3c44-4a96-86aa-23d4ddf41f4a'}
-[+] Access Token: 2b73d2a8-3c44-4a96-86aa-23d4ddf41f4a
-[*] Get user info...
-{'error': 'Invalid Access Token'}
-Traceback (most recent call last):
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/scripts/task4_bola2.py", line 79, in <module>
-    main()
-    ~~~~^^
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/scripts/task4_bola2.py", line 72, in main
-    get_user_info(token)
-    ~~~~~~~~~~~~~^^^^^^^
-  File "/home/domai/Coding/message-level-security-ws2526/excersise-02/scripts/task4_bola2.py", line 36, in get_user_info
-    response.raise_for_status()
-    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/usr/lib/python3.13/site-packages/requests/models.py", line 1026, in raise_for_status
-    raise HTTPError(http_error_msg, response=self)
-requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://rest.e-hacking.de/rest-api-sec/vuln_users/users/user?verifier=bola-2
-```
+ii)
+- Using the credentials for the `bgreen` user, `/authenticate` returns an `access_token` and `"id": "5"`.
+  - Using the `access_token`, the `/user` Endpoint returns that `bgreen` has the `role` "employee", thus is only able to see his own reports.
+- Using the `access_token`, the `/reports` Endpoint returns, that the user created the reports with the ids `4` and `9`.
+- However, using the `/reports/{reportId}` endpoint, using `reportId` 1, a report from the user with `"creator_id": 2` gets returned. The user with that `id` is the user `asmith` with the `role` "manager".
+   - All other reports (except 4 and 9) return `"error": "Not allowed to see report from a different department!"`
 
 ## Task 5
 
