@@ -9,7 +9,7 @@ b) `api_key: apiKey`
 c) `api_key`
 
 d) Neah, API-keys are still common practice but "dynamic" authentication token like JWTs / SSO-based authentication would be more secure (if correctly configured).
-The tomtom API uses HTTPS, the sending the API key via query itself would be fine. One issue would be, for example, logging via the browser history. 
+The tomtom API uses HTTPS, the sending the API key via query itself would be fine. One issue would be, for example, logging via the browser history.
 This makes the aforementioned authentication methods preferable.
 
 e)
@@ -66,6 +66,7 @@ Paths without any defined authentication mechanism:
 ```
 
 ## Task 3
+
 a)
 The "Vulnerable Users API" Postman collection was used via Bruno.
 i)
@@ -85,13 +86,14 @@ The "Vulnerable Users API" Postman collection was used via Bruno.
 b)
 The "Vulnerable Reports API" Postman collection was used via Bruno.
 i)
+
 - Using the credentials for the `bgreen` user, `/authenticate` returns `"id": "5"` and an `access_token`.
 - Using the `access_token`, `/user` returns `"role": "employee"`
 
 ii)
+
 - Using the `access_token`, `/reports` (GET) returns reports with `"id": 4` and `"id": 9`
-- 
-iii)
+- iii)
 - Yes. The endpoint to update an existing report's properties (including the `name`) is:
   HTTP method: PATCH
   Path: /reports (server base) -> full path: https://rest.e-hacking.de:443/rest-api-sec/vuln_reports/reports
@@ -101,17 +103,21 @@ iii)
 c)
 The "Vulnerable Reports API" Postman collection was used via Bruno.
 i)
+
 - Using the credentials for the `user1` user, `/authenticate` returns `"id": "12345678"` and an `access_token`.
 - Using the `access_token`, `/users` returns `"role": "customer"`
 
 ii)
+
 - Using the `access_token`, `/users/shops` returns `[]`. The user does not own any shops.
 
 iii)
+
 - Using the `/shops` Endpoint, one can see that the shop `Adventure Goods` has the id `87654325`
 - Using the `/shops/{shop_id}` Endpoint using the `access_token`, looking up the id `87654325` returns the user id `45678901` as owner
 
 iv)
+
 - Using the `/shops` Endpoint, one can see that the shop `Bike World` has the id `87654322`
 - Using the `/shops/{shop_id}/products` Endpoint using the `access_token` and looking up the id `87654322`, one can see that the BMX costs 300 (Dollars? Euros?)
 
@@ -119,52 +125,45 @@ iv)
 
 The "Vulnerable Reports API" Postman collection was used via Bruno.
 i)
-- Using the credentials for the `bgreen` user, `/authenticate` returns an `access_token` and `"id": "5"`.
 
-ii)
 - Using the credentials for the `bgreen` user, `/authenticate` returns an `access_token` and `"id": "5"`.
   - Using the `access_token`, the `/user` Endpoint returns that `bgreen` has the `role` "employee", thus is only able to see his own reports.
 - Using the `access_token`, the `/reports` Endpoint returns, that the user created the reports with the ids `4` and `9`.
 - However, using the `/reports/{reportId}` endpoint, using `reportId` 1, a report from the user with `"creator_id": 2` gets returned. The user with that `id` is the user `asmith` with the `role` "manager".
-   - All other reports (except 4 and 9) return `"error": "Not allowed to see report from a different department!"`
+  - All other reports (except 4 and 9) return `"error": "Not allowed to see report from a different department!"`
+
+ii)
+
+- Using the credentials for the `asmith` user, `/authenticate` returns an `access_token` and `"id": "2"`.
+  - Using the `access_token`, the `/user` Endpoint returns that `asmith` has the `role` "manager", thus is only able to see omly reports of the same department.
+- Using the `access_token`, the `/reports` Endpoint returns, that the user can view the reports with the ids `1`, `4` and `9`.
+- However, using the `/reports/{reportId}` endpoint, using `reportId` 2, a report from the department "hr" (instead of "finance") gets returned.
 
 ## Task 5
 
-See [task5.py](../scripts/task5.py)
+The "Vulnerable Users API" Postman collection was used via Bruno.
+i)
+
+- No JWT attacks.
+- The JWT of a POST-request to endpoint `/authenticate` has within the payloas another `access_token` attribute.
+- The JWT of a Basic Auth GET-request to the same endpoint doesn't have this `access_token` payload attribute.
+- The endpoint `/users/user` expect a JWT as token, so the `access_token` within the JWT cannot be used.
+- The `access_token` within the JWT cannot be used as Basic Auth password on the `/authenticate` endpoint.
+
+=> How to exploit?
+
+ii)
+
+- Authenticate as user `natasha_romanoff` at endpoint `/authenticate` at get JWT in `access_token`.
+- Change the payload of the received JWT to `"username": "admin"` and `"role": "super_admin"`.
+- Use this token as bearer authentication against endpoint `/users/user` and execlude signature.
+- Receive flag: `FLAG{rest_auth3_7cTDZYssl9cnO4aB}`
+
+JWT to receive flag:
 
 ```
-❯ python task5.py
-[*] Authenticating...
-{'id': '2', 'name': 'natasha_romanoff', 'access_token': 'eyJ0eXAiOiJKV1QiLCJnaWQiOiI3MDE3MmU0NS0wODNkLTQ2YmItYjU2Mi0yNTc2ZjhjMzkxYjQiLCJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJlIjoiQVFBQiIsInVzZSI6InNpZyIsImtpZCI6IjU1ODc3YWZhLTM0ZjUtNDRkZS1hNmQyLTdlYjcxZDUyNzdiYyIsIm4iOiJ1cnUyeTc3RXRWdWJBUUhBaU9yR1hWNWlwNDY0eTRGRzFvLWoxVmdsLWZzZUhidEZxY3B3RnpfZ2NMUTJjaEVPeFF0N1E2VHA3WG1qTGowc1dCeWptQ2ZQWUNrWVpPSnBtb2lDaEhHY3hqYU1XaWhUamdyejRuWC1qWU5oUzZTLUlpSHBCRDFzalRveVc2OHJtTzJSQ0pqZUw0QnpKRlctTVY2TlVCcEFta244M0VYYzM1QlBiWEtWT2MzaThQUDVVYkstV0RwWE11U3l0eXFhUHlDeklOT3cyUXVxaTdMY2dveFdZaG1Cakd0RHRGYUoyX28yZEVIcHFTNUp4bG01aVV5RGdocEdJMk1jb0w4bXVwOXNlQ21ITTBRc2xBMndnNlotNlRaUVRNU3NLd0dXQy1RWVdZclRoM0x5TFpUS2JRLXYtRDdoTEtHaTUteExveWN3SFEifSwia2lkIjoiNTU4NzdhZmEtMzRmNS00NGRlLWE2ZDItN2ViNzFkNTI3N2JjIn0.ewogICJpZCI6ICIyIiwKICAidXNlcm5hbWUiOiAibmF0YXNoYV9yb21hbm9mZiIsCiAgImNvbXBhbnlfaWQiOiAiYXBwbGUiLAogICJyb2xlIjogIm5vcm1hbCIsCiAgImFkZHJlc3MiOiAiTW9zY293Igp9.I-F-HY1lTRnjtPiroAIowL0NlCNs5_NKavmq7cLTxpDmFsMcoGcX040mQsqShLhqxDgrfbWwn_QtU5FXZGP8AOmxsGOnzRg23PQUbKiJWb_qjmUUhdmx94x_yHJD8N_BQUZScGz5DETMEMK31JAThgXaaUUtik6z0LuWbGygUGBnZ6CnpKl45VXmXpeE1kTyVSss_wqwy2YME1q7A0S_qaHQlXeXiru8Xf9kexESIyt_DETyt6OH2i8p-vqUmoFqcsLFOvA0KhSlxpNY-3J_AGixxNxTYJZduHSg-8BFbfvwGJveMaloNSPvR9fjNe41Y9TAFQJku-7OjU7fSn0yqw'}
-[+] Access Token: eyJ0eXAiOiJKV1QiLCJnaWQiOiI3MDE3MmU0NS0wODNkLTQ2YmItYjU2Mi0yNTc2ZjhjMzkxYjQiLCJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJlIjoiQVFBQiIsInVzZSI6InNpZyIsImtpZCI6IjU1ODc3YWZhLTM0ZjUtNDRkZS1hNmQyLTdlYjcxZDUyNzdiYyIsIm4iOiJ1cnUyeTc3RXRWdWJBUUhBaU9yR1hWNWlwNDY0eTRGRzFvLWoxVmdsLWZzZUhidEZxY3B3RnpfZ2NMUTJjaEVPeFF0N1E2VHA3WG1qTGowc1dCeWptQ2ZQWUNrWVpPSnBtb2lDaEhHY3hqYU1XaWhUamdyejRuWC1qWU5oUzZTLUlpSHBCRDFzalRveVc2OHJtTzJSQ0pqZUw0QnpKRlctTVY2TlVCcEFta244M0VYYzM1QlBiWEtWT2MzaThQUDVVYkstV0RwWE11U3l0eXFhUHlDeklOT3cyUXVxaTdMY2dveFdZaG1Cakd0RHRGYUoyX28yZEVIcHFTNUp4bG01aVV5RGdocEdJMk1jb0w4bXVwOXNlQ21ITTBRc2xBMndnNlotNlRaUVRNU3NLd0dXQy1RWVdZclRoM0x5TFpUS2JRLXYtRDdoTEtHaTUteExveWN3SFEifSwia2lkIjoiNTU4NzdhZmEtMzRmNS00NGRlLWE2ZDItN2ViNzFkNTI3N2JjIn0.ewogICJpZCI6ICIyIiwKICAidXNlcm5hbWUiOiAibmF0YXNoYV9yb21hbm9mZiIsCiAgImNvbXBhbnlfaWQiOiAiYXBwbGUiLAogICJyb2xlIjogIm5vcm1hbCIsCiAgImFkZHJlc3MiOiAiTW9zY293Igp9.I-F-HY1lTRnjtPiroAIowL0NlCNs5_NKavmq7cLTxpDmFsMcoGcX040mQsqShLhqxDgrfbWwn_QtU5FXZGP8AOmxsGOnzRg23PQUbKiJWb_qjmUUhdmx94x_yHJD8N_BQUZScGz5DETMEMK31JAThgXaaUUtik6z0LuWbGygUGBnZ6CnpKl45VXmXpeE1kTyVSss_wqwy2YME1q7A0S_qaHQlXeXiru8Xf9kexESIyt_DETyt6OH2i8p-vqUmoFqcsLFOvA0KhSlxpNY-3J_AGixxNxTYJZduHSg-8BFbfvwGJveMaloNSPvR9fjNe41Y9TAFQJku-7OjU7fSn0yqw
+eyJ0eXAiOiJKV1QiLCJnaWQiOiIwODRjZjY1Zi00NjlhLTQ4ZmMtYjZmNi1lNWMwYjU5MjdmOWUiLCJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJlIjoiQVFBQiIsInVzZSI6InNpZyIsImtpZCI6ImIyYWFhNzBhLTk1MTUtNDA0OC05MjMyLWVkNjAzNGRkYTA5OSIsIm4iOiJ4VThuQkF1bWxTR0V1N3owTTBuVnpyQkRWMTlkVjJXLW5KLVhZSGVXbEpuSF9ETVFhX2tadUlfNXBvTWszNEo0T25qOEdnYm5tcEV3ZHF6b0x0dy0tbm9HSVlVcGRLMFR6MG0tUHZnOTBVLThlSGlmb1phR1d1YzhtdjVtam4zVnNNT2RjQ1lCaUNpR05XdkNUb1JfRm5CYUdteU9aNUJRVkJIenlidkM5cy1KbjM2aVJQdC1BUm1fQ2ZWRmVhYVRab3lpc0loYzdFM1BKR1Y2X0tTcTJjZFh2c0ZZSjJteDBXdHhEWXdOZnZ5XzdfaWlFcWhZNDBnTlFqSzBaYml2OE9zSmVPcV9IVU0yeW5kREo2alhLWWo2NDhTZnQ2MUdhYzNiN25rY2xWV0RCUFJwYndhcUw3OU84YUpUNVJhR2MxRmtUWXR1enZxcEpmS3dLNlRRdXcifSwia2lkIjoiYjJhYWE3MGEtOTUxNS00MDQ4LTkyMzItZWQ2MDM0ZGRhMDk5In0.eyJhY2Nlc3NfdG9rZW4iOiIzMTBmNGJiMi1jMGVlLTRkMjEtOTkwOS0wNTc1ZTkwMmFlY2EiLCJpZCI6IjIiLCJ1c2VybmFtZSI6ImFkbWluIiwiY29tcGFueV9pZCI6ImFwcGxlIiwicm9sZSI6InN1cGVyX2FkbWluIiwiYWRkcmVzcyI6Ik1vc2NvdyJ9.
 ```
-
-JWT decoded:
-
-```
-{
-    "typ": "JWT",
-    "gid": "70172e45-083d-46bb-b562-2576f8c391b4",
-    "alg": "RS256",
-    "jwk": {
-        "kty": "RSA",
-        "e": "AQAB",
-        "use": "sig",
-        "kid": "55877afa-34f5-44de-a6d2-7eb71d5277bc",
-        "n": "uru2y77EtVubAQHAiOrGXV5ip464y4FG1o-j1Vgl-fseHbtFqcpwFz_gcLQ2chEOxQt7Q6Tp7XmjLj0sWByjmCfPYCkYZOJpmoiChHGcxjaMWihTjgrz4nX-jYNhS6S-IiHpBD1sjToyW68rmO2RCJjeL4BzJFW-MV6NUBpAmkn83EXc35BPbXKVOc3i8PP5UbK-WDpXMuSytyqaPyCzINOw2Quqi7LcgoxWYhmBjGtDtFaJ2_o2dEHpqS5Jxlm5iUyDghpGI2McoL8mup9seCmHM0QslA2wg6Z-6TZQTMSsKwGWC-QYWYrTh3LyLZTKbQ-v-D7hLKGi5-xLoycwHQ"
-    },
-    "kid": "55877afa-34f5-44de-a6d2-7eb71d5277bc"
-}
-{
-    "id": "2",
-    "username": "natasha_romanoff",
-    "company_id": "apple",
-    "role": "normal",
-    "address": "Moscow"
-}
-```
-
-=> Most likely a key confusion attack: Replace public key of JWT header with own public key and sign with own private key. The payload can than be whatever we want, e.g. admin role
 
 ## Task 6
 
@@ -176,4 +175,7 @@ No time
 
 ## Task 8
 
-Patching product allow to insert own URLs. See [task8.py](../scripts/task8.py).
+- Authenticates to the API by POST username and password to `/authenticate`, receives a Bearer `access_token`, and uses it for authorization on subsequent calls.
+- Calls `PATCH /products/{PRODUCT_ID}` with the bearer token to update the product resource identified by `PRODUCT_ID`.
+- The PATCH payload includes a `picture` field that contains an externally supplied URL (an absolute http(s) URL) — this is the only request field that causes the server to receive a client-controlled network target.
+- If the server performs any server‑side fetch, validation, or processing of that `picture` URL, that server behavior is the likely SSRF attack surface.

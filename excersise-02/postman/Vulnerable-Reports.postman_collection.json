@@ -1,0 +1,4057 @@
+{
+  "info": {
+    "_postman_id": "3e6ce67e-fd82-4264-81b4-b23e45a356f1",
+    "name": "Vulnerable Reports",
+    "description": "Vulnerable API for managing reports.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17005336"
+  },
+  "item": [
+    {
+      "name": "Warm-up",
+      "item": [
+        {
+          "name": "Authenticate and fetch a valid Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "password5",
+                  "description": "Type your password"
+                },
+                {
+                  "key": "username",
+                  "value": "bgreen",
+                  "description": "Type your username"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/authenticate?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["authenticate"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports created by the user based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Update existing report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified"
+                },
+                {
+                  "key": "department",
+                  "value": "string",
+                  "description": "Specify the department related to this report"
+                },
+                {
+                  "key": "creator_id",
+                  "value": "string",
+                  "description": "Specify the creator of the report"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get the user information based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"accessToken\": \"string\",\n  \"id\": \"string\",\n  \"password\": \"string\",\n  \"companyId\": \"string\",\n  \"role\": \"user\",\n  \"name\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints Relevant for Warm-up Level."
+    },
+    {
+      "name": "BOLA",
+      "item": [
+        {
+          "name": "Authenticate and fetch a valid Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "password5",
+                  "description": "Type your password"
+                },
+                {
+                  "key": "username",
+                  "value": "bgreen",
+                  "description": "Type your username"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/authenticate?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["authenticate"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports created by the user based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports' content by *report_id*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", ":reportId"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ],
+              "variable": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get the user information based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"accessToken\": \"string\",\n  \"id\": \"string\",\n  \"password\": \"string\",\n  \"companyId\": \"string\",\n  \"role\": \"user\",\n  \"name\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints Relevant for Broken Object Level Authorization"
+    },
+    {
+      "name": "BOPLA",
+      "item": [
+        {
+          "name": "Authenticate and fetch a valid Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "password5",
+                  "description": "Type your password"
+                },
+                {
+                  "key": "username",
+                  "value": "bgreen",
+                  "description": "Type your username"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/authenticate?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["authenticate"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports created by the user based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Create a new report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified."
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Update existing report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified"
+                },
+                {
+                  "key": "department",
+                  "value": "string",
+                  "description": "Specify the department related to this report"
+                },
+                {
+                  "key": "creator_id",
+                  "value": "string",
+                  "description": "Specify the creator of the report"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports' content by *report_id*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", ":reportId"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ],
+              "variable": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get the user information based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"accessToken\": \"string\",\n  \"id\": \"string\",\n  \"password\": \"string\",\n  \"companyId\": \"string\",\n  \"role\": \"user\",\n  \"name\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints Relevant for Broken Property Level Authorization"
+    },
+    {
+      "name": "SSRF",
+      "item": [
+        {
+          "name": "Authenticate and fetch a valid Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "password5",
+                  "description": "Type your password"
+                },
+                {
+                  "key": "username",
+                  "value": "bgreen",
+                  "description": "Type your username"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/authenticate?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["authenticate"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports created by the user based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Create a new report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified."
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Update existing report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified"
+                },
+                {
+                  "key": "department",
+                  "value": "string",
+                  "description": "Specify the department related to this report"
+                },
+                {
+                  "key": "creator_id",
+                  "value": "string",
+                  "description": "Specify the creator of the report"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Download report as JSON, XML, or PDF",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/download?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "download"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/download?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "download"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"string\",\n  \"content\": \"string\",\n  \"department\": \"string\",\n  \"name\": \"string\",\n  \"creatorId\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/download?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "download"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Upload a report as a PDF",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "pdf_encoded",
+                  "value": "string",
+                  "description": "PDF document encoded base64"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/upload?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "upload"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "pdf_encoded",
+                      "value": "string",
+                      "description": "PDF document encoded base64"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/upload?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "upload"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "pdf_encoded",
+                      "value": "string",
+                      "description": "PDF document encoded base64"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/upload?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "upload"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports' content by *report_id*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", ":reportId"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ],
+              "variable": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get the user information based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"accessToken\": \"string\",\n  \"id\": \"string\",\n  \"password\": \"string\",\n  \"companyId\": \"string\",\n  \"role\": \"user\",\n  \"name\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints Relevant for Server-Side Request Forgery"
+    },
+    {
+      "name": "Unsafe API",
+      "item": [
+        {
+          "name": "Authenticate and fetch a valid Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "password5",
+                  "description": "Type your password"
+                },
+                {
+                  "key": "username",
+                  "value": "bgreen",
+                  "description": "Type your username"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/authenticate?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["authenticate"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "password",
+                      "value": "password5",
+                      "description": "Type your password"
+                    },
+                    {
+                      "key": "username",
+                      "value": "bgreen",
+                      "description": "Type your username"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/authenticate?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["authenticate"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get the user information based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["user"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"accessToken\": \"string\",\n  \"id\": \"string\",\n  \"password\": \"string\",\n  \"companyId\": \"string\",\n  \"role\": \"user\",\n  \"name\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints Relevant for Unsafe API Vulnerabilities"
+    },
+    {
+      "name": "Security Misconfiguration (SM)",
+      "item": [
+        {
+          "name": "Get reports created by the user based on *access_token*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Create a new report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified."
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified."
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Update existing report",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                },
+                {
+                  "key": "name",
+                  "value": "string",
+                  "description": "Report Name"
+                },
+                {
+                  "key": "content",
+                  "value": "string",
+                  "description": "Report's Content: No format specified"
+                },
+                {
+                  "key": "department",
+                  "value": "string",
+                  "description": "Specify the department related to this report"
+                },
+                {
+                  "key": "creator_id",
+                  "value": "string",
+                  "description": "Specify the creator of the report"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "reportId",
+                      "value": "string",
+                      "description": "Specify Report ID"
+                    },
+                    {
+                      "key": "name",
+                      "value": "string",
+                      "description": "Report Name"
+                    },
+                    {
+                      "key": "content",
+                      "value": "string",
+                      "description": "Report's Content: No format specified"
+                    },
+                    {
+                      "key": "department",
+                      "value": "string",
+                      "description": "Specify the department related to this report"
+                    },
+                    {
+                      "key": "creator_id",
+                      "value": "string",
+                      "description": "Specify the creator of the report"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Download report as JSON, XML, or PDF",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "*/*"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/download?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "download"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/download?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "download"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": \"string\",\n  \"content\": \"string\",\n  \"department\": \"string\",\n  \"name\": \"string\",\n  \"creatorId\": \"string\"\n}"
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"filepath\": \"string\",\n  \"filetype\": \"json\",\n  \"showOnlyContent\": true,\n  \"reportId\": \"string\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/download?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "download"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Upload a report as a PDF",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "pdf_encoded",
+                  "value": "string",
+                  "description": "PDF document encoded base64"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/upload?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "upload"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "pdf_encoded",
+                      "value": "string",
+                      "description": "PDF document encoded base64"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/upload?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "upload"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "pdf_encoded",
+                      "value": "string",
+                      "description": "PDF document encoded base64"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/reports/upload?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "upload"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        },
+        {
+          "name": "Get reports' content by *report_id*",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", ":reportId"],
+              "query": [
+                {
+                  "key": "verifier",
+                  "value": "1",
+                  "description": "Verifier controlling the verification logic of the vulnerable service."
+                }
+              ],
+              "variable": [
+                {
+                  "key": "reportId",
+                  "value": "string",
+                  "description": "Specify Report ID"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "The Request could be processed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Exception occured. Operation not allowed.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer \u003Ctoken\u003E",
+                    "description": "Added as a part of security scheme: bearer"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/:reportId?verifier=1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", ":reportId"],
+                  "query": [
+                    {
+                      "key": "verifier",
+                      "value": "1",
+                      "description": "Verifier controlling the verification logic of the vulnerable service."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "reportId"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ],
+      "description": "The API is vulnerable bacause the best current practices regaring error messages, measureble behavior in dependence of the input, or insufficient input sanitization are not implemented correctly."
+    },
+    {
+      "name": "tokens Revoke Post",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reset",
+          "host": ["{{baseUrl}}"],
+          "path": ["reset"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://rest.e-hacking.de/rest-api-sec/vuln_reports"
+    }
+  ]
+}
